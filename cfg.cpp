@@ -19,6 +19,11 @@
 #include <sys/stat.h>
 #include <dirent.h>
 
+#ifdef __sun__
+#include <sys/systeminfo.h>
+#define getdomainname(name,namelen) sysinfo(SI_SRPC_DOMAIN, name, namelen)
+#endif
+
 #include "cfg.h"
 
 using namespace std;

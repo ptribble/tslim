@@ -12,6 +12,9 @@
 #include <sstream>
 #include <poll.h>
 #include <X11/extensions/Xrandr.h>
+#ifdef __sun__
+#include <libgen.h>
+#endif
 #include "panel.h"
 
 using namespace std;
