@@ -74,8 +74,8 @@ if(USE_PAM)
     set(BUILD_SLIMLOCK 1)
 endif(USE_PAM)
 
-# Build common library
-set(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries")
+# Build common library, shared off as there are no other consumers
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries")
 
 if (BUILD_SHARED_LIBS)
 	message(STATUS "Enable shared library building")
@@ -181,6 +181,13 @@ target_link_libraries(libslim
     ${JPEG_LIBRARIES}
 	${PNG_LIBRARIES}
 )
+
+# Solaris needs -lsocket -lnsl
+if (${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
+target_link_libraries(${PROJECT_NAME}
+  "-lsocket -lnsl"
+)
+endif (${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
 
 #Set up library with all found packages for slim
 target_link_libraries(${PROJECT_NAME}
