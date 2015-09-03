@@ -1,13 +1,13 @@
 # Path, X server and arguments (if needed)
 # Note: -xauth $authfile is automatically appended
-default_path        /usr/bin:/usr/sbin
+default_path        /bin:/usr/bin:/usr/local/bin
 default_xserver     /usr/bin/X
-xserver_arguments   :0 -nolisten tcp :0
+#xserver_arguments   -dpi 75
 
 # Commands for halt, login, etc.
-halt_cmd            /usr/sbin/poweroff
-reboot_cmd          /usr/sbin/reboot
-console_cmd         /usr/bin/xterm -C -fg green -bg black +sb -T "Console login" -e /bin/sh -c "/bin/cat /etc/motd; exec /bin/login"
+halt_cmd            /sbin/shutdown -h now
+reboot_cmd          /sbin/shutdown -r now
+console_cmd         /usr/bin/xterm -C -fg white -bg black +sb -T "Console login" -e /bin/sh -c "/bin/cat /etc/issue; exec /bin/login"
 #suspend_cmd        /usr/sbin/suspend
 
 # Full path to the xauth binary
@@ -29,7 +29,11 @@ authfile           /var/run/slim.auth
 # to handle launching of specific commands in .xinitrc
 # depending of chosen session and slim theme
 #
-login_cmd           exec /bin/bash -login /usr/share/tribblix-session/slim-login %session
+# NOTE: if your system does not have bash you need
+# to adjust the command according to your preferred shell,
+# i.e. for freebsd use:
+# login_cmd           exec /bin/sh - ~/.xinitrc %session
+login_cmd           exec /bin/bash -login ~/.xinitrc %session
 
 # Commands executed when starting and exiting a session.
 # They can be used for registering a X11 session with
@@ -45,7 +49,7 @@ login_cmd           exec /bin/bash -login /usr/share/tribblix-session/slim-login
 
 # Set directory that contains the xsessions.
 # slim reads xsesion from this directory, and be able to select.
-#sessiondir            /usr/share/xsessions/
+sessiondir            /usr/share/xsessions/
 
 # Executed when pressing F11 (requires imagemagick)
 screenshot_cmd      import -window root /slim.png

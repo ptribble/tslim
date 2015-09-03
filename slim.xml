@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!--
+ Copyright 2015 Peter Tribble.
+-->
+
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+
+<service_bundle type='manifest' name='slim'>
+
+<service
+	name='system/slim'
+	type='service'
+	version='1'>
+
+        <create_default_instance enabled='false' />
+
+        <single_instance />
+
+	<dependency
+		name='console-login'
+		grouping='require_all'
+		restart_on='none'
+		type='service'>
+		<service_fmri value='svc:/system/console-login:default' />
+	</dependency>
+
+	<exec_method
+		type='method'
+		name='start'
+		exec='/usr/bin/slim -d'
+		timeout_seconds='0'>
+                <method_context>
+                        <method_credential user='root' group='root' />
+                </method_context>
+        </exec_method>
+
+	<exec_method
+		type='method'
+		name='stop'
+		exec=':kill -9'
+		timeout_seconds='3'>
+                <method_context>
+                        <method_credential user='root' group='root' />
+                </method_context>
+        </exec_method>
+
+	<template>
+		<common_name>
+			<loctext xml:lang='C'>
+Tribblix SLiM desktop login
+			</loctext>
+		</common_name>
+		<documentation>
+			<manpage title='slim' section='1'
+				manpath='/usr/share/man' />
+		</documentation>
+	</template>
+</service>
+
+</service_bundle>

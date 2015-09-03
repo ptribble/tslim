@@ -21,7 +21,7 @@ set(SLIM_VERSION_MINOR "3")
 set(SLIM_VERSION_PATCH "6")
 set(SLIM_VERSION "${SLIM_VERSION_MAJOR}.${SLIM_VERSION_MINOR}.${SLIM_VERSION_PATCH}")
 
-set(CMAKE_INSTALL_PREFIX "/usr/local" CACHE PATH "Installation Directory")
+set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "Installation Directory")
 set(PKGDATADIR "${CMAKE_INSTALL_PREFIX}/share/slim")
 set(SYSCONFDIR "/etc")
 set(LIBDIR "/lib")
@@ -43,9 +43,9 @@ set(SLIM_DEFINITIONS ${SLIM_DEFINITIONS} "-DPKGDATADIR=\"${PKGDATADIR}\"")
 set(SLIM_DEFINITIONS ${SLIM_DEFINITIONS} "-DSYSCONFDIR=\"${SYSCONFDIR}\"")
 
 # Flags
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -g -O2")
-set(CMAKE_CPP_FLAGS "${CMAKE_CPP_FLAGS} -Wall -g -O2")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -g -O2")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O2")
+set(CMAKE_CPP_FLAGS "${CMAKE_CPP_FLAGS} -Wall -O2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O2")
 
 # source 
 set(slim_srcs
@@ -238,7 +238,9 @@ endif (BUILD_SHARED_LIBS)
 
 # man file
 install(FILES slim.1 DESTINATION ${MANDIR}/man1/)
+if(BUILD_SLIMLOCK)
 install(FILES slimlock.1 DESTINATION ${MANDIR}/man1/)
+endif(BUILD_SLIMLOCK)
 # configure
 install(FILES slim.conf DESTINATION ${SYSCONFDIR})
 # systemd service file

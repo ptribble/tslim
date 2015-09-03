@@ -1,0 +1,49 @@
+#!/bin/sh
+#
+# this script is called from tSLiM at login.
+#
+
+#
+# if an argument is present, and it matches a known session,
+# and the session is valid, then create that session
+#
+case $# in
+1)
+	if [ -x /usr/bin/setxsession ]; then
+	   /usr/bin/setxsession $1
+	fi
+	;;
+esac
+
+#
+# if the user has a .xinitrc (either preexisting or created
+# by setxession above) then execute it
+#
+if [ -f ${HOME}/.xinitrc ]; then
+   chmod u+x ${HOME}/.xinitrc
+   exec ${HOME}/.xinitrc
+fi
+
+#
+# now start guessing
+# Xfce and MATE are in separate overlays
+# wmaker is in retro-desktop
+#
+if [ -f /usr/bin/startxfce4 ]; then
+   exec /usr/bin/startxfce4
+fi
+if [ -f /usr/bin/mate-session ]; then
+   exec /usr/bin/mate-session
+fi
+if [ -f /usr/bin/wmaker ]; then
+   if [ -f /usr/share/tribblix-session/wmaker.xinitrc ]; then
+      exec /usr/share/tribblix-session/wmaker.xinitrc
+   else
+      exec /usr/bin/wmaker
+   fi
+fi
+#
+# last chance
+#
+/usr/bin/xterm &
+exec /usr/bin/twm
