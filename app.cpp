@@ -11,6 +11,9 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifdef __sun__
+#include <libdevinfo.h>
+#endif
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdint.h>
@@ -628,6 +631,11 @@ void App::Login() {
 #endif
 
 		/* Login process starts here */
+#ifdef __sun__
+		/* first set device permissions */
+		di_devperm_login("/dev/vt/console_user", pw->pw_uid, pw->pw_gid,
+				 NULL);
+#endif
 		SwitchUser Su(pw, cfg, DisplayName, child_env);
 		string session = LoginPanel->getSession();
 		string loginCommand = cfg->getOption("login_cmd");
@@ -664,6 +672,10 @@ void App::Login() {
 			system(sessStop.c_str());
 		}
 	}
+
+#ifdef __sun__
+	di_devperm_logout("/dev/vt/console_user");
+#endif
 
 #ifdef USE_CONSOLEKIT
 	try {

@@ -185,7 +185,7 @@ target_link_libraries(libslim
 # Solaris needs -lsocket -lnsl
 if (${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
 target_link_libraries(${PROJECT_NAME}
-  "-lsocket -lnsl"
+  "-lsocket -lnsl -ldevinfo"
 )
 endif (${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
 
