@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
 	prev_fn = signal(SIGTERM, HandleSignal);
 	if (prev_fn == SIG_IGN) signal(SIGTERM, SIG_IGN);
 
-	// create a lock file to solve mutliple instances problem
+	// create a lock file to solve multiple instances problem
 	// /var/lock used to be the place to put this, now it's /run/lock
 	// ...i think
 	struct stat statbuf;

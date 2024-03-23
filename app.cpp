@@ -823,7 +823,7 @@ void App::RestartServer() {
 
 	StopServer();
 	RemoveLock();
-	while (waitpid(-1, NULL, WNOHANG) > 0); /* Collects all dead childrens */
+	while (waitpid(-1, NULL, WNOHANG) > 0); /* Collects all dead children */
 	Run();
 }
 
@@ -1156,14 +1156,14 @@ bool App::isServerStarted() {
 void App::OpenLog() {
 
 	if ( !logStream.openLog( cfg->getOption("logfile").c_str() ) ) {
-		logStream <<  APPNAME << ": Could not accesss log file: " << cfg->getOption("logfile") << endl;
+		logStream <<  APPNAME << ": Could not access log file: " << cfg->getOption("logfile") << endl;
 		RemoveLock();
 		exit(ERR_EXIT);
 	}
-	/* I should set the buffers to imediate write, but I just flush on every << operation. */
+	/* I should set the buffers to immediate write, but I just flush on every << operation. */
 }
 
-/* Relases stdout/err */
+/* Releases stdout/err */
 void App::CloseLog(){
 	/* Simply closing the log */
 	logStream.closeLog();
